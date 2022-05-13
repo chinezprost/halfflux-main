@@ -1,0 +1,54 @@
+@page
+@using Newtonsoft.Json
+@using Org.BouncyCastle.Asn1.Cms
+@model ChangelogModel
+@{
+    ViewData["Title"] = "Changelogs";
+}
+<h1 class="font-barlow text-white">@ViewData["Title"]</h1>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Changelogs</title>
+    <div class="container">
+        @*<button type="button" class="btn btn-success">Adaugă</button>*@
+        @foreach (var changelog in Model.ChangelogsModal)
+        {
+            <div class="font-barlow m-3 text-white">
+                
+                <img class="rounded-3 float-start me-3" src="@changelog.UsernamePicture" width="50" height="50"/>
+                <div>
+                    <div class="font-barlow">@changelog.Username
+                    </div> 
+                    <div class="opacity-50">
+                        @if (DateTime.Now.Subtract(changelog.Content.TimeStamp).Days > 0)
+                        {
+                            <div>Acum @DateTime.Now.Subtract(changelog.Content.TimeStamp).Days zile.</div>
+                        }
+                        else
+                        {
+                            <div class="font-barlow">Astăzi.</div>
+                        }
+                    </div>
+                </div>
+               
+                <div class="my-3">Version: @changelog.Content.MajorPatch<a>.</a>@changelog.Content.MediumPatch<a>.</a>@changelog.Content.MinorPatch</div>
+                
+                
+            </div>
+            
+            foreach (var element in JsonConvert.DeserializeObject<List<string>>(changelog.Content.ChangelogContent))
+            {
+                <div class="font-barlow text-white"> - @element </div>
+            }
+        }
+        
+    </div>
+</head>
+<body>
+<div>
+    
+</div>
+</body>
+</html>
