@@ -1,3 +1,4 @@
+using FireSharp.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HALFFLUX_main_website.Models;
@@ -8,7 +9,7 @@ public class ApplicationContexts : DbContext
     {
         
     }
-    
+
     public DbSet<Changelog> Changelogs { get; set; }
     public DbSet<User> Users { get; set; }
 }

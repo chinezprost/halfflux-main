@@ -1,6 +1,8 @@
 using System.Configuration;
 using HALFFLUX_main_website.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 using Westwind.AspNetCore.LiveReload;
 using ConfigurationSection = Microsoft.Extensions.Configuration.ConfigurationSection;
 
@@ -30,9 +32,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseSession();
-
 app.MapRazorPages();
 
 app.Run();

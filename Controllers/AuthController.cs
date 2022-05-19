@@ -6,11 +6,18 @@ namespace HALFFLUX_main_website.Controllers;
 
 public class AuthController : Controller
 {
+    public IActionResult RegisterUser()
+    {
+        return RedirectToPage("Index");
+    }
+    [Route("Auth/RegisterUser")]
     [HttpPost]
-    public ActionResult RegisterUser(string registerUsername, string registerPassword, string registerPasswordConfirm)
+    public IActionResult RegisterUser(string registerUsername, string registerPassword, string registerConfirmPassword)
     {
         Console.WriteLine("AAAAAAAAAAAAAAAAAAAA");
-        Console.WriteLine($"{registerUsername} - {registerPassword} - {registerPasswordConfirm}");
-        return NotFound();
+        Console.WriteLine($"{registerUsername} - {registerPassword} - {registerConfirmPassword}");
+        return Ok();
     }
+
+    
 }

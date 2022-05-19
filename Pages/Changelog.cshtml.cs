@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using FireSharp.Config;
 using HALFFLUX_main_website.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,16 +18,23 @@ public class ChangelogModel : PageModel
         _db = db;
     }
 
+    private FirebaseConfig _config = new FirebaseConfig
+    {
+        AuthSecret = "",
+        BasePath = "https://halfflux-35e11-default-rtdb.europe-west1.firebasedatabase.app/"
+    };
+    
+
     [BindProperty] 
     public List<ChangelogToShow> ChangelogsModal { get; set; }
     
     public List<ChangelogToShow> Changelogs = new List<ChangelogToShow>();
     
-    
-
+   
 
     public async Task<IActionResult> OnGet()
     {
+        Console.WriteLine("a");
         var changelogs = await _db.Changelogs.ToListAsync();
         for (int i = 0; i < changelogs.Count; i++)
         {
