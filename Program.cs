@@ -15,6 +15,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddLiveReload();
 builder.Services.AddSession();
+builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -29,9 +31,15 @@ if (!app.Environment.IsDevelopment())
 app.UseLiveReload();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
+app.UseRouting();
 app.UseSession();
 app.MapRazorPages();
 

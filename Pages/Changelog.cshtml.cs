@@ -4,6 +4,7 @@ using HALFFLUX_main_website.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HALFFLUX_main_website.Pages;
 
@@ -24,13 +25,22 @@ public class ChangelogModel : PageModel
         BasePath = "https://halfflux-35e11-default-rtdb.europe-west1.firebasedatabase.app/"
     };
     
+    public IActionResult OnButtonPress(string button)
+    {
+        Console.WriteLine("hello");
+        return Page();
+    }
 
     [BindProperty] 
     public List<ChangelogToShow> ChangelogsModal { get; set; }
     
     public List<ChangelogToShow> Changelogs = new List<ChangelogToShow>();
-    
-   
+
+
+    public IActionResult OnPostButtonPress()
+    {
+        return RedirectToPage("Changelog/Add", "AddChangelogGet");
+    }
 
     public async Task<IActionResult> OnGet()
     {
@@ -49,7 +59,9 @@ public class ChangelogModel : PageModel
                 UsernamePicture = user.UsernamePicture
             });
         }
-        ChangelogsModal = Changelogs;
+
+        var aux = Changelogs.OrderByDescending(x => x.Content.Id).ToList();
+        ChangelogsModal = aux;
         return Page();
     }
 
@@ -58,7 +70,7 @@ public class ChangelogModel : PageModel
     {
         public string Username { get; set; }
         public string UsernamePicture { get; set; }
-        public Changelog Content { get; set; }
+        public Models.Changelog Content { get; set; }
 
     }
 }

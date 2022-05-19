@@ -1,6 +1,7 @@
 @page
 @using Newtonsoft.Json
 @using Org.BouncyCastle.Asn1.Cms
+@using MySqlX.XDevAPI.Relational
 @model ChangelogModel
 @{
     ViewData["Title"] = "Changelogs";
@@ -13,23 +14,23 @@
     <title>Changelogs</title>
     <div class="">
         
-       
-        <button asp-action="OnButtonPress" asp-controller="Changelog" class="btn btn-success" id="button">Press</button>
-        
-        <div class="container">
+        <form method="post" asp-page-handler="ButtonPress">
+            <button class="btn btn-success">Add changelog.</button>
+        </form>
+        <div class="container my-4">
             @*<button type="button" class="btn btn-success">Adaugă</button>*@
             @foreach (var changelog in Model.ChangelogsModal)
             {
-                <div class="font-barlow m-3 text-white">
+                <div class="font-barlow my-5 text-white">
 
                     <img class="rounded-3 float-start me-3" src="@changelog.UsernamePicture" width="50" height="50"/>
                     <div>
                         <div class="font-barlow">@changelog.Username
                         </div>
                         <div class="opacity-50">
-                            @if (DateTime.Now.Subtract(changelog.Content.TimeStamp).Days > 0)
+                            @if (DateTime.Now.Subtract((DateTime) changelog.Content.TimeStamp).Days > 0)
                             {
-                                <div>Acum @DateTime.Now.Subtract(changelog.Content.TimeStamp).Days zile.</div>
+                                <div>Acum @DateTime.Now.Subtract((DateTime) changelog.Content.TimeStamp).Days zile.</div>
                             }
                             else
                             {
@@ -40,14 +41,14 @@
 
                     <div class="my-3">Version: @changelog.Content.MajorPatch<a>.</a>@changelog.Content.MediumPatch<a>.</a>@changelog.Content.MinorPatch</div>
 
-
+                     <div class="text-white">
+                    @Html.Raw(@changelog.Content.ChangelogContent)
+                    </div>
                 </div>
 
-                foreach (var element in JsonConvert.DeserializeObject<List<string>>(changelog.Content.ChangelogContent))
-                {
-                    <div class="font-barlow text-white"> - @element </div>
-                }
+               
             }
+            
 
         </div>
     </div>
@@ -57,4 +58,5 @@
     
 </div>
 </body>
+
 </html>
