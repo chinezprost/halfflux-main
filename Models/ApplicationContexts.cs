@@ -12,4 +12,5 @@ public class ApplicationContexts : DbContext
 
     public DbSet<Changelog> Changelogs { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Showcase> Showcases { get; set; }
 }

@@ -1,9 +1,9 @@
 @page
 @model GamesModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Showcases";
 }
-<h1>@ViewData["Title"]</h1>
+<h1 class="font-barlow">@ViewData["Title"]</h1>
 <!DOCTYPE html>
 
 <html>
@@ -12,7 +12,104 @@
 </head>
 <body>
 <div>
-    
+    <a class="font-barlow btn btn-primary" id="buttonclick">Create Showcase</a>
+    <div class="container">
+        <div class="modal fade" tabindex="-1" id="showcaseModal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title font-barlow">Create showcase.</h4>
+                    </div>
+                    <div class="modal-body ">
+                        <form method="post" asp-page-handler="CreateShowcase">
+                            <div class="form-group ms-1 my-1">
+                                <input class="form-control font-barlow" asp-for="URL" name="URL" type="text"placeholder="URL"/>
+                            </div>
+                            <div class="form-group ms-1 my-1">
+                                                            <input class="form-control font-barlow" asp-for="Title" name="Title" type="text"placeholder="Title"/>
+                                                        </div>
+                            <div class="form-group ms-1 my-3">
+                                <input class="form-control font-barlow" asp-for="Description" name = "Description" placeholder="Description" type="text"/>
+                            </div>
+                            <button type="submit" class="btn btn-success button button4">Create</button>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="text-center">
+        <h4 class="mb-5">
+            <strong>Animations</strong>
+        </h4>
+
+        <div class="row">
+            @if (Model.Showcases != null && Model.Showcases.Count > 0)
+            {
+                
+                foreach (var element in Model.Showcases)
+                {
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <div class="card">
+                            <div
+                                class="bg-image hover-overlay ripple"
+                                data-mdb-ripple-color="light">
+                                <img
+                                    src=@String.Format("{0}{1}{2}", "http://img.youtube.com/vi/", Model.ReturnVideoID(element.URL), "/hqdefault.jpg")
+                class="img-fluid"/>
+                                <a href="#!">
+                                    <div
+                                        class="mask"
+                                        style="background-color: rgba(251, 251, 251, 0.15)">
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@element.Title</h5>
+                                <p class="card-text">
+                                    @element.Description
+                                </p>
+                                <a href="#!"  class="font-barlow btn btn-danger">Youtube</a>
+                                <form method="post" asp-page-handler="DeleteShowcase">
+                                <input hidden asp-for="ShowcaseToDelete" name="ShowcaseToDelete" value="@element.ID">
+                                    <button class="ms-2 font-barlow btn btn-danger" type="submit">Delete Showcase</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+        <script type="text/javascript">
+                               
+                                    $(document).ready(function () {
+                                        $("#buttonclick").click(function () {
+                                             console.log("Press");
+                                             $("#showcaseModal").modal('show');
+                                        });
+          
+                                        $("#btnHideModal").click(function () {
+                                            $("#showcaseModal").modal('hide');
+                                        });
+                                        
+                                       
+                                        
+                                     
+                                    });
+                                </script>
+    </section>
 </div>
+
+
 </body>
+
 </html>
